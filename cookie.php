@@ -1,7 +1,6 @@
 <?php
-if((!isset($_COOKIE['party']))&&(isset($_POST['send']))) {
-    $name = $_POST['name'];
-    setcookie('party', $name);
+if((isset($_POST['send'])) && (!in_array($_POST['name'], $_COOKIE))) {
+    setcookie("party{rand()}", $_POST['name']);
 }
 date_default_timezone_set('Europe/Kiev');
 ?>
@@ -20,13 +19,24 @@ date_default_timezone_set('Europe/Kiev');
     </form>
     <?php 
         $current_date = date('H:i');
-          $start_date = '01:00';
-          $end_date = '02:00';
+          $start_date = '19:00';
+          $end_date = '19:10';
         
-        if(isset($_COOKIE['party']) && ($current_date >= $start_date) && ($current_date <= $end_date))
-            echo "<br/>You're part of our party!<br/>";
-        else
-            echo "<br/>You're not partying with us!<br/>";
+        if(in_array($_POST['name'], $_COOKIE)) {
+            if(($current_date >= $start_date) && ($current_date <= $end_date)) {
+                echo "<br/>You're part of our party!<br/>";
+                foreach($_COOKIE as $key => $value) {
+                    if(preg_match("/^party/", $key)) {
+                        echo $value . "<br/>";
+                    }
+                } 
+                echo "are partying with you!";
+            } else {
+                echo "<br/>The party time haven't come yet!";
+            }
+        } else {
+            echo "<br/>You're not partying with us!<br/>"; 
+        }
     ?> 
 </body>
 </html>
