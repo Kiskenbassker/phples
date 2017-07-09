@@ -1,7 +1,9 @@
 <?php
 if((isset($_POST['send'])) && (!in_array($_POST['name'], $_COOKIE))) {
-    setcookie("party{rand()}", $_POST['name']);
+    $random = rand();
+    setcookie("party{$random}", $_POST['name']);
 }
+var_dump($_COOKIE);
 date_default_timezone_set('Europe/Kiev');
 ?>
 <!DOCTYPE html>
@@ -19,8 +21,8 @@ date_default_timezone_set('Europe/Kiev');
     </form>
     <?php 
         $current_date = date('H:i');
-          $start_date = '19:00';
-          $end_date = '19:10';
+          $start_date = '00:00';
+          $end_date = '02:10';
         
         if(in_array($_POST['name'], $_COOKIE)) {
             if(($current_date >= $start_date) && ($current_date <= $end_date)) {
