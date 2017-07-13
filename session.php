@@ -1,4 +1,11 @@
 <?php
+date_default_timezone_set('Europe/Kiev');
+$current_date = date('d.m.Y H:i');
+$start_date = date('d.m.Y') . ' 00:00';
+$end_date = date('d.m.Y') . ' 02:00';
+
+$secs = strtotime($end_date) - strtotime($current_date);
+session_set_cookie_params($secs);
 session_start();
 
 if(isset($_POST['send']) && (!in_array($_POST['name'], $_SESSION['party']))) {
@@ -7,6 +14,7 @@ if(isset($_POST['send']) && (!in_array($_POST['name'], $_SESSION['party']))) {
     
     array_push($_SESSION['party'], $_POST['name']);
 }
+
 
 date_default_timezone_set('Europe/Kiev');
 ?>
@@ -27,9 +35,6 @@ date_default_timezone_set('Europe/Kiev');
     <input type="submit" value="Send" name="send" />
     </form>
     <?php 
-        $current_date = date('H:i');
-          $start_date = '20:00';
-          $end_date = '22:00';
         
         if(in_array($_POST['name'], $_SESSION['party'])) {
             if(($current_date >= $start_date) && ($current_date <= $end_date)) {
